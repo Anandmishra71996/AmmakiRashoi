@@ -11,7 +11,8 @@ namespace Core.Specifications
          (string.IsNullOrEmpty(ProductParams.Search)||x.Name.
         ToLower().Contains(ProductParams.Search))&&
         (!ProductParams.brandId.HasValue||x.ProductBrandId==ProductParams.brandId)&&
-        (!ProductParams.typeId.HasValue||x.ProductTypeId==ProductParams.typeId)
+        (!ProductParams.typeId.HasValue||x.ProductTypeId==ProductParams.typeId)&&
+        (!ProductParams.stateId.HasValue||x.ProductStateId==ProductParams.stateId)
         )
         {
         }

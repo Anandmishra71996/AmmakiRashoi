@@ -10,7 +10,8 @@ namespace Core.Specifications
             set=>_pageSize=(value>MaxPageSize)?MaxPageSize:value;
         }
         public int? brandId { get; set; }
-        public int? typeId { get; set; }    
+        public int? typeId { get; set; } 
+        public int? stateId { get; set; }   
         public string Sort { get; set; }
         private string _search;
         public string Search

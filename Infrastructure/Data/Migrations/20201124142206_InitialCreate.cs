@@ -20,6 +20,19 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductState",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductState", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductTypes",
                 columns: table => new
                 {
@@ -40,10 +53,11 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 200, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<double>(type: "decimal(18,2)", nullable: false),
                     PictureUrl = table.Column<string>(nullable: false),
                     ProductTypeId = table.Column<int>(nullable: false),
-                    ProductBrandId = table.Column<int>(nullable: false)
+                    ProductBrandId = table.Column<int>(nullable: false),
+                    ProductStateId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,6 +66,12 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Products_ProductBrand_ProductBrandId",
                         column: x => x.ProductBrandId,
                         principalTable: "ProductBrand",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductState_ProductStateId",
+                        column: x => x.ProductStateId,
+                        principalTable: "ProductState",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -68,6 +88,11 @@ namespace Infrastructure.Data.Migrations
                 column: "ProductBrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductStateId",
+                table: "Products",
+                column: "ProductStateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductTypeId",
                 table: "Products",
                 column: "ProductTypeId");
@@ -80,6 +105,9 @@ namespace Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductBrand");
+
+            migrationBuilder.DropTable(
+                name: "ProductState");
 
             migrationBuilder.DropTable(
                 name: "ProductTypes");

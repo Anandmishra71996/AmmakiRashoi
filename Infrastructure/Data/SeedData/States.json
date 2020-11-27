@@ -1,0 +1,146 @@
+[
+    {
+      "Id": 1,
+      "Name": "Andra Pradesh"
+    },
+    {
+      "Id": 2,
+      "Name": "Arunachal Pradesh"
+    },
+    {
+      "Id": 3,
+      "Name": "Assam"
+    },
+    {
+      "Id": 4,
+      "Name": "Bihar"
+    },
+    {
+      "Id": 5,
+      "Name": "Chhattisgarh"
+    },
+    {
+      "Id": 6,
+      "Name": "Goa"
+    },
+    {
+      "Id": 7,
+      "Name": "Gujarat"
+    },
+    {
+      "Id": 8,
+      "Name": "Haryana"
+    },
+    {
+      "Id": 9,
+      "Name": "Himachal Pradesh"
+    },
+    {
+      "Id": 10,
+      "Name": "Jammu and Kashmir"
+    },
+    {
+      "Id": 11,
+      "Name": "Jharkhand"
+    },
+    {
+      "Id": 12,
+      "Name": "Karnataka"
+    },
+    {
+      "Id": 13,
+      "Name": "Kerala"
+    },
+    {
+      "Id": 14,
+      "Name": "Madya Pradesh"
+    },
+    {
+      "Id": 15,
+      "Name": "Maharashtra"
+    },
+    {
+      "Id": 16,
+      "Name": "Manipur"
+    },
+    {
+      "Id": 17,
+      "Name": "Meghalaya"
+    },
+    {
+      "Id": 18,
+      "Name": "Mizoram"
+    },
+    {
+      "Id": 19,
+      "Name": "Nagaland"
+    },
+    {
+      "Id": 20,
+      "Name": "Orissa"
+    },
+    {
+      "Id": 21,
+      "Name": "Punjab"
+    },
+    {
+      "Id": 22,
+      "Name": "Rajasthan"
+    },
+    {
+      "Id": 23,
+      "Name": "Sikkim"
+    },
+    {
+      "Id": 24,
+      "Name": "Tamil Nadu"
+    },
+    {
+      "Id": 25,
+      "Name": "Telagana"
+    },
+    {
+      "Id": 26,
+      "Name": "Tripura"
+    },
+    {
+      "Id": 27,
+      "Name": "Uttaranchal"
+    },
+    {
+      "Id": 28,
+      "Name": "Uttar Pradesh"
+    },
+    {
+      "Id": 29,
+      "Name": "West Bengal"
+    },
+    {
+      "Id": 30,
+      "Name": "Andaman and Nicobar Islands"
+    },
+    {
+      "Id": 31,
+      "Name": "Chandigarh"
+    },
+    {
+      "Id": 32,
+      "Name": "Dadar and Nagar Haveli"
+    },
+    {
+      "Id": 33,
+      "Name": "Daman and Diu"
+    },
+    {
+      "Id": 34,
+      "Name": "Delhi"
+    },
+    {
+      "Id": 35,
+      "Name": "Lakshadeep"
+    },
+    {
+      "Id": 36,
+      "Name": "Pondicherry"
+    }
+  ]

@@ -7,30 +7,32 @@ namespace Core.Specifications
     public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
     {
         public ProductsWithTypesAndBrandsSpecification(ProductSpecParams ProductParams)
-        :base(x =>
-        (string.IsNullOrEmpty(ProductParams.Search)||x.Name.
-        ToLower().Contains(ProductParams.Search))&&
-        (!ProductParams.brandId.HasValue||x.ProductBrandId==ProductParams.brandId)&&
-        (!ProductParams.typeId.HasValue||x.ProductTypeId==ProductParams.typeId)
+        : base(x =>
+         (string.IsNullOrEmpty(ProductParams.Search) || x.Name.
+         ToLower().Contains(ProductParams.Search)) &&
+         (!ProductParams.brandId.HasValue || x.ProductBrandId == ProductParams.brandId) &&
+         (!ProductParams.typeId.HasValue || x.ProductTypeId == ProductParams.typeId) &&
+         (!ProductParams.stateId.HasValue || x.ProductStateId == ProductParams.stateId)
         )
         {
             AddInclude(p => p.ProductType);
             AddInclude(p => p.ProductBrand);
-            AddOrderBy(p=>p.Name);
-            ApplyPaging(ProductParams.PageSize*(ProductParams.PageIndex-1),ProductParams.PageSize);
-            if(!string.IsNullOrEmpty(ProductParams.Sort))
+            AddInclude(p => p.ProductState);
+            AddOrderBy(p => p.Name);
+            ApplyPaging(ProductParams.PageSize * (ProductParams.PageIndex - 1), ProductParams.PageSize);
+            if (!string.IsNullOrEmpty(ProductParams.Sort))
             {
-                switch(ProductParams.Sort)
+                switch (ProductParams.Sort)
                 {
                     case "priceAsc":
-                            AddOrderBy(p=>p.Price);
-                            break;
+                        AddOrderBy(p => p.Price);
+                        break;
                     case "priceDesc":
-                            AddOrderByDescending(p=>p.Price);
-                            break;
+                        AddOrderByDescending(p => p.Price);
+                        break;
                     default:
-                            AddOrderBy(p=>p.Name);
-                            break;
+                        AddOrderBy(p => p.Name);
+                        break;
 
                 }
             }

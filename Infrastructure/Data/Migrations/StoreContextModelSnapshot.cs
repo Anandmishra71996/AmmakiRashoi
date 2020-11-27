@@ -35,10 +35,13 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(180,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductBrandId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductStateId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ProductTypeId")
@@ -47,6 +50,8 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductBrandId");
+
+                    b.HasIndex("ProductStateId");
 
                     b.HasIndex("ProductTypeId");
 
@@ -65,6 +70,20 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductBrand");
+                });
+
+            modelBuilder.Entity("Core.Entities.ProductState", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductState");
                 });
 
             modelBuilder.Entity("Core.Entities.ProductType", b =>
@@ -86,6 +105,12 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("Core.Entities.ProductBrand", "ProductBrand")
                         .WithMany()
                         .HasForeignKey("ProductBrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.ProductState", "ProductState")
+                        .WithMany()
+                        .HasForeignKey("ProductStateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -37,6 +37,17 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
 
                 }
+                if (!context.ProductState.Any())
+                {
+                    var StateData = File.ReadAllText("../Infrastructure/Data/SeedData/States.json");
+                    var types = JsonSerializer.Deserialize<List<ProductState>>(StateData);
+                    foreach (var item in types)
+                    {
+                        context.ProductState.Add(item);
+                    }
+                    await context.SaveChangesAsync();
+
+                }
                 if (!context.Products.Any())
                 {
                     var ProductData = File.ReadAllText("../Infrastructure/Data/SeedData/products.json");
@@ -48,6 +59,8 @@ namespace Infrastructure.Data
                     await context.SaveChangesAsync();
 
                 }
+                
+                
             }
             catch (Exception ex)
             {
