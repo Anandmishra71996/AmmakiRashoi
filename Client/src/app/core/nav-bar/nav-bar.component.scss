@@ -11,3 +11,16 @@
     right:32px;
     
 }
+.logo{
+    cursor: pointer;
+    &:focus{
+    outline: none;
+    }
+}
+a{
+    text-decoration: none;
+    color:dark-brown;
+    &.active{
+        color:orange;
+    }
+}

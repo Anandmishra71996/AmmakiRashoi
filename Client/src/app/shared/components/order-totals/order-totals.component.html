@@ -1,0 +1,20 @@
+<div class="bg-light px-4 py-3 text-uppercase font-weight-bold">
+  Order Summary
+</div>
+<div class="p-4">
+    <p class="font-italic mb-4">Shipping charges will be applied during chckout</p>
+    <ul class="list-unstyled mb-4" *ngIf="(baskettotal$ |async)as baskettotals">
+        <li class="d-flex justify-content-between py-3 border-bottom">
+        <strong class="text-muted">Order SubTotal</strong>
+        <strong >{{baskettotals.subtotal|currency:'INR'}}</strong>
+        </li>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+        <strong class="text-muted">Shipping and Handling</strong>
+        <strong >{{baskettotals.shipping|currency:'INR'}}</strong>
+      </li>
+      <li class="d-flex justify-content-between py-3 border-bottom">
+        <strong class="text-muted">Order Total</strong>
+        <strong >{{baskettotals.total|currency:'INR'}}</strong>
+      </li>
+    </ul>
+</div>

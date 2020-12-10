@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { IPagination } from '../shared/models/pagination';
+import { IProduct } from '../shared/models/product';
 import { IType } from '../shared/models/Producttypes';
 import { ShopParams } from '../shared/models/shopParams';
 import { IState } from '../shared/models/State';
@@ -10,7 +12,7 @@ import { IState } from '../shared/models/State';
   providedIn: 'root',
 })
 export class ShopService {
-  baseurl = 'https://localhost:5001/api/';
+  baseurl = environment.apiURL;
   constructor(private http: HttpClient) {}
   // tslint:disable-next-line: typedef
   getProducts(shopParams: ShopParams) {
@@ -40,6 +42,10 @@ export class ShopService {
           return response.body;
         })
       );
+  }
+  // tslint:disable-next-line: typedef
+  getProduct(id: number) {
+    return this.http.get<IProduct>(this.baseurl + 'products/' + id);
   }
   // tslint:disable-next-line: typedef
   getStates() {
