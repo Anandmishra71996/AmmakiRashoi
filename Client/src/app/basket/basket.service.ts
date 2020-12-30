@@ -9,6 +9,7 @@ import {
   IBasketItem,
   IBasketTotals,
 } from '../shared/models/basket';
+import { IDeliveryMethod } from '../shared/models/deliveryMethods';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
@@ -20,6 +21,7 @@ export class BasketService {
   basket$ = this.basketsource.asObservable();
   private basketTotalSource = new BehaviorSubject<IBasketTotals>(null);
   baskettotal$ = this.basketTotalSource.asObservable();
+  shipping = 0;
   constructor(private http: HttpClient) {}
   // tslint:disable-next-line: typedef
   getbasket(id: string) {
@@ -40,6 +42,11 @@ export class BasketService {
         console.log(error);
       }
     );
+  }
+  setShippingPrice(deliveryMethod: IDeliveryMethod)
+  {
+    this.shipping = deliveryMethod.price;
+    this.calculateTotals();
   }
   getCurrentBasketValue() {
     return this.basketsource.value;
@@ -81,6 +88,12 @@ export class BasketService {
     } else {
       this.removeBasket(basket);
     }
+  }
+  deleteLocalBasket(id: string)
+  {
+    this.basketsource.next(null),
+        this.basketTotalSource.next(null),
+        localStorage.removeItem('basket_id');
   }
   removeBasket(basket: IBasket) {
     this.http.delete(this.baseurl + 'basket?id=' + basket.id).subscribe(() => {
@@ -128,7 +141,7 @@ export class BasketService {
   }
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
-    const shipping = 0;
+    const shipping = this.shipping;
     const subtotal = basket.items.reduce(
       (a, b) => b.productPrice * b.quantity + a,
       0

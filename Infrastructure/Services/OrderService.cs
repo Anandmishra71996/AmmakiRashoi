@@ -4,22 +4,19 @@ using System.Threading.Tasks;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specifications;
 
 namespace Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IGenericRepository<Order> _orderRepo;
-        private readonly IGenericRepository<DeliveryMethod> _dmRepo;
-        private readonly IGenericRepository<Product> _productRepo;
         private readonly IBasketRepository _basketRepository;
-        public OrderService(IGenericRepository<Order> orderRepo, IGenericRepository<DeliveryMethod> dmRepo,
-        IGenericRepository<Product> productRepo, IBasketRepository basketRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public OrderService(IBasketRepository basketRepository, IUnitOfWork unitOfWork)
         {
+            this._unitOfWork = unitOfWork;
             this._basketRepository = basketRepository;
-            this._productRepo = productRepo;
-            this._dmRepo = dmRepo;
-            this._orderRepo = orderRepo;
+
         }
 
         public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodid, string basketId, Address shippingAddress)
@@ -30,39 +27,44 @@ namespace Infrastructure.Services
             var items = new List<OrderItem>();
             foreach (var item in basket.Items)
             {
-                var ProductItem = await _productRepo.GetByIdAsync(item.ProductId);
+                var ProductItem = await _unitOfWork.Repository<Product>().GetByIdAsync(item.ProductId);
                 var itemOrdered = new ProductItemOrdered(ProductItem.Id, ProductItem.Name,
                                                          ProductItem.PictureUrl);
-                var orderItem= new OrderItem(itemOrdered,item.Quantity, ProductItem.Price);
+                var orderItem = new OrderItem(itemOrdered, item.Quantity, ProductItem.Price);
                 items.Add(orderItem);
 
             }
             //get deliveryMethod from Repo
-            var deliveryMethod= await _dmRepo.GetByIdAsync(deliveryMethodid);
+            var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodid);
             //Creating Subtotal
-            var subTotal = items.Sum(item => item.Price* item.Quantity);
+            var subTotal = items.Sum(item => item.Price * item.Quantity);
             //createOrder
-            var order = new Order(buyerEmail,shippingAddress,deliveryMethod,items,subTotal);
+            var order = new Order(buyerEmail, shippingAddress, deliveryMethod, items, subTotal);
+            _unitOfWork.Repository<Order>().Add(order);
             //Save to DB
-
-
+            var result = await _unitOfWork.Complete();
+            if(result<1) return null;
+            //Delete Basket
+            await _basketRepository.DeleteBasketAsync(basketId);
             //return order
             return order;
         }
 
-        public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethods()
+        public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethods()
         {
-            throw new System.NotImplementedException();
+            return await _unitOfWork.Repository<DeliveryMethod>().ListAllAsync();
         }
 
-        public Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
+        public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
         {
-            throw new System.NotImplementedException();
+           var spec = new OrderWithItemsandOrderingSpecification(id,buyerEmail);
+           return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
         }
 
-        public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new System.NotImplementedException();
+            var spec = new OrderWithItemsandOrderingSpecification(buyerEmail);
+            return  await _unitOfWork.Repository<Order>().ListAsync(spec);
         }
     }
 }

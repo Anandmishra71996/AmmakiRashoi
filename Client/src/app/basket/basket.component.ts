@@ -27,6 +27,9 @@ incrementItemQuantity(item: IBasketItem)
 }
 decrementItemQuantity(item: IBasketItem)
 {
-  this.basketservice.decrementItemQuantity(item);
+  if (item.quantity > 1)
+ {
+   this.basketservice.decrementItemQuantity(item);
+ }
 }
 }
